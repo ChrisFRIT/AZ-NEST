@@ -85,7 +85,7 @@ configuration CreateADPDC
             DatabasePath = "C:\NTDS\DB"
             LogPath = "C:\NTDS\LOG"
             SysvolPath = "C:\NTDS\SYSVOL"
-            DependsOn = @("[WindowsFeature]ADDSInstall", "[xDisk]ADDataDisk")
+            DependsOn = @("[WindowsFeature]ADDSInstall")
         }
 
         xPendingReboot RebootAfterPromotion{
