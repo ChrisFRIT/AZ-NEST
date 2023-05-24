@@ -1,7 +1,6 @@
 Configuration WindowsWebServer {
 
-    Import-DscResource -ModuleName PSDesiredStateConfiguration
-	Import-DscResource -Module xWebAdministration
+    Import-DscResource -ModuleName PSDesiredStateConfiguration, xWebAdministration
 
     Node localhost {
 
@@ -86,6 +85,7 @@ Configuration WindowsWebServer {
 
 		xIisLogging Logging
         {
+			LogPath				 = 'C:\inetpub\logs\LogFiles'
             Logflags             = @('Date','Time','ClientIP','UserName','SiteName','ComputerName','ServerIP','ServerPort','Method','UriStem','UriQuery','HttpStatus','HttpSubStatus','Win32Status','BytesSent','BytesRecv','TimeTaken','ProtocolVersion','Host','UserAgent','Referer')
             LoglocalTimeRollover = $true
             LogPeriod            = 'Daily'
@@ -106,13 +106,12 @@ Configuration WindowsWebServer {
 			)
         }
 		
-		xWebConfigProperty
-        {
-            Filter       = 'system.webServer/security/requestFiltering'
-            PropertyName = 'removeServerHeader'
-            Value        = 'true'
-            Ensure       = 'Present'
-        }
-
-      }
+		#xWebConfigProperty
+        #{
+        #    Filter       = 'system.webServer/security/requestFiltering'
+        #    PropertyName = 'removeServerHeader'
+        #    Value        = 'true'
+        #    Ensure       = 'Present'
+        #}
+	}
 }
