@@ -2,8 +2,6 @@ Configuration WindowsWebServer {
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
 	Import-DscResource -Module xWebAdministration
-	Import-DscResource -Module xIisLogging
-	Import-DscResource -Module xWebConfigProperty
 
     Node localhost {
 
