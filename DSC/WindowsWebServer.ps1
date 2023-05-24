@@ -82,13 +82,35 @@ Configuration WindowsWebServer {
             Name            = 'Web-Mgmt-Console'
             DependsOn       = '[WindowsFeature]WebServerRole'
         } 
-  
-        xWebsite DefaultSite   
-        {  
-            Ensure          = 'Present'
-            Name            = 'Default Web Site'
-            PhysicalPath    = 'C:\inetpub\wwwroot' 
-            DependsOn       = '[WindowsFeature]WebServerRole'
+
+		xIisLogging Logging
+        {
+            Logflags             = @('Date','Time','ClientIP','UserName','SiteName','ComputerName','ServerIP','ServerPort','Method','UriStem','UriQuery','HttpStatus','HttpSubStatus','Win32Status','BytesSent','BytesRecv','TimeTaken','ProtocolVersion','Host','UserAgent','Referer')
+            LoglocalTimeRollover = $true
+            LogPeriod            = 'Daily'
+            LogFormat            = 'W3C'
+			LogCustomFields    = @(
+                MSFT_xLogCustomField
+                {
+                    LogFieldName = 'Content-Type'
+                    SourceName   = 'Content-Type'
+                    SourceType   = 'RequestHeader'
+                }
+                MSFT_xLogCustomField
+                {
+                    LogFieldName = 'X-Forwarded-For'
+                    SourceName   = 'X-Forwarded-For'
+                    SourceType   = 'RequestHeader'
+                }
+        }
+		
+		xWebConfigProperty
+        {
+            # WebsitePath  = 'IIS:\Sites\Default Web Site'
+            Filter       = 'system.webServer/security/requestFiltering'
+            PropertyName = 'removeServerHeader'
+            Value        = 'true'
+            Ensure       = 'Present'
         }
 
       }
