@@ -1,6 +1,9 @@
 Configuration WindowsWebServer {
 
-    Import-DscResource -ModuleName PSDesiredStateConfiguration, xWebAdministration, xIisLogging, xWebConfigProperty
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
+	Import-DscResource -Module xWebAdministration
+	Import-DscResource -Module xIisLogging
+	Import-DscResource -Module xWebConfigProperty
 
     Node localhost {
 
@@ -102,11 +105,11 @@ Configuration WindowsWebServer {
                     SourceName   = 'X-Forwarded-For'
                     SourceType   = 'RequestHeader'
                 }
+			)
         }
 		
 		xWebConfigProperty
         {
-            # WebsitePath  = 'IIS:\Sites\Default Web Site'
             Filter       = 'system.webServer/security/requestFiltering'
             PropertyName = 'removeServerHeader'
             Value        = 'true'
