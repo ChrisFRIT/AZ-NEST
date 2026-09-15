@@ -22,10 +22,10 @@ Configuration WindowsWebServer {
             Ensure = "Present"
         }
 
-        WindowsFeature ASPNet48
+        WindowsFeature ASPNet45
         {
 		    Ensure = "Present"
-		    Name = "Web-Asp-Net48"
+		    Name = "Web-Asp-Net45"
         }
 
         WindowsFeature HTTPRedirection
@@ -104,6 +104,16 @@ Configuration WindowsWebServer {
                     SourceType   = 'RequestHeader'
                 }
 			)
+        }
+		
+		xWebSiteDefaults SiteDefaults
+        {
+            IsSingleInstance       = 'Yes'
+            LogFormat              = 'W3C'
+            LogDirectory           = 'C:\inetpub\logs\LogFiles'
+            TraceLogDirectory      = 'C:\inetpub\logs\FailedReqLogFiles'
+            DefaultApplicationPool = 'DefaultAppPool'
+            AllowSubDirConfig      = 'true'
         }
 		
 		#xWebConfigProperty
